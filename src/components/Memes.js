@@ -1,15 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import memesData from "./memesData";
 const Meme = () => {
+  const [meme, setMeme] = useState({
+    topText: "",
+    bottomText: "",
+    randomImage: "http://i.imgflip.com/1bij.jpg",
+  });
+
+  const [allMemeImages, setAllMemeImages] = useState(memesData);
   // Function to get a random image from the `memesData` array
   //     when the "new meme image" button is clicked.
   function getMemeImage() {
     // acccessing the array where the memes are stored in the memesData file and storing them in a constant called memesArray
-    const memesArray = memesData.data.memes;
+    const memesArray = allMemeImages.data.memes;
     // getting a random number(random meme) from the array and using that index to get a random url
     const randomNumber = Math.floor(Math.random() * memesArray.length);
     const url = memesArray[randomNumber].url;
-    console.log("clicked");
+    setMeme(prevMeme => {
+      return { ...prevMeme, randomImage: url };
+      
+    });
+    
   }
   return (
     <section>
@@ -38,6 +49,8 @@ const Meme = () => {
           >
             Get a New Meme image
           </button>
+          <img className="mt-8 h-auto" src={meme.randomImage} alt="meme" />
+
         </div>
       </div>
     </section>
